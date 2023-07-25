@@ -1,12 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import manImage from './assets/imgs/man.png';
 import pencilCaseImage from './assets/imgs/pencil-case.svg';
 import responsiveImage from './assets/imgs/responsive.svg';
 import toolboxImage from './assets/imgs/toolbox.svg';
 import analyticsImage from './assets/imgs/analytics.svg';
 import scooterImage from './assets/imgs/scooter.svg';
+import emailjs from 'emailjs-com';
 
 const Main = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .send(
+        'netlify_function_name', // Replace with the name of your Netlify serverless function (without the .js extension)
+        {
+          name: name,
+          email: email,
+          message: message,
+        },
+        {}
+      )
+      .then((response) => {
+        console.log('Email sent successfully!');
+        // Do something on successful email submission, e.g., show a success message to the user
+      })
+      .catch((error) => {
+        console.error('Error sending email:', error);
+        // Handle error here, e.g., show an error message to the user
+      });
+  };
+
   return (
     <>
       <div>
@@ -240,6 +268,7 @@ const Main = () => {
                 <div className="col-sm-12">
                   <button type="submit" className="btn btn-outline-primary btn-rounded">Send Message</button>
                 </div>
+                <span style={{marginLeft: '130px'}}>You can also chat with me on whatsapp: '+923002210139'</span>
               </div>
             </form>
           </div>
